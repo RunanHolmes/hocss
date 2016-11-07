@@ -1,24 +1,13 @@
 var express = require('express');
 var app = express();
+var upload = require('./uploadfile.js')('avatar');
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static('public'));
 
 var bodyParser = require('body-parser');
-var multer = require('multer');
 
-var storage1 = multer.diskStorage(
-  {
-    destination(req, file, cb){
-       cb(null, 'public/images/background');
-    },
-    filename(req, file, cb){
-      cb(null, Date.now() + file.originalname);
-    }
-  }
-);
-
-var upload = multer({storage: storage1}).single('avatar');
+var parser = bodyParser.urlencoded({extended: false});
 
 app.get('/', function(req,res){
   res.render('index_dark', {mang: mang});
@@ -27,7 +16,6 @@ app.get('/', function(req,res){
 app.get('/admin', function(req, res){
   res.render('addItem');
 });
-var parser = bodyParser.urlencoded({extended: false});
 
 app.post('/upload', parser, function(req, res){
   upload(req, res, function(err){
@@ -41,6 +29,9 @@ app.post('/upload', parser, function(req, res){
   });
 });
 
+app.get('/danhsach', function(req, res){
+  res.render('danhsach', {mang: mang});
+});
 
 app.listen(3000);
 
