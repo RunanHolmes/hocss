@@ -4,9 +4,43 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static('public'));
 
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+var storage1 = multer.diskStorage(
+  {
+    destination(req, file, cb){
+       cb(null, 'public/images/background');
+    },
+    filename(req, file, cb){
+      cb(null, Date.now() + file.originalname);
+    }
+  }
+);
+
+var upload = multer({storage: storage1}).single('avatar');
+
 app.get('/', function(req,res){
   res.render('index_dark', {mang: mang});
 });
+
+app.get('/admin', function(req, res){
+  res.render('addItem');
+});
+var parser = bodyParser.urlencoded({extended: false});
+
+app.post('/upload', parser, function(req, res){
+  upload(req, res, function(err){
+    var hinh = req.file.filename;
+    var title = req.body.title;
+    var desc = req.body.desc;
+    var videoID = req.body.videoID;
+
+    mang.push(new SanPham(hinh, videoID, title, desc));
+    res.redirect('/');
+  });
+});
+
 
 app.listen(3000);
 
