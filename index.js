@@ -43,6 +43,10 @@ app.get('/xoa/:i', function(req, res){
   mang.splice(index, 1);
 });
 
+app.get('/sua/:i', function(req, res){
+  res.render('edit', {sanPham: mang[req.params.i]});
+});
+
 app.listen(3000);
 
 function SanPham(hinh, videoID, title, desc){
