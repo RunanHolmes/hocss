@@ -3,22 +3,50 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <style>
+      table{
+        border-collapse: collapse;
+
+      }
+    </style>
   </head>
   <body>
-    <ul>
+    <table border="1">
+      <tr>
+        <td>
+          STT
+        </td>
+        <td>
+          Ten san pham
+        </td>
+        <td>
+          Hinh san pham
+        </td>
+        <td>
+          Chinh sua
+        </td>
+      </tr>
+      <%
+        mang.forEach(function(e, i){
+          %><tr>
+            <td>
+              <%=i + 1%>
+            </td>
+            <td>
+              <%= e.title%>
+            </td>
+            <td>
+              <img width="150px" src = "images/background/<%=e.hinh%>">
+            </td>
+            <td>
+              <a href="/xoa/<%=i%>">Xoa</a>
+              <a href="/sua/<%=i%>">Sua</a>
+            </td>
+            <%
+        });
+      %>
 
-      		<%
-      			mang.forEach(function(sanPham){
-      				%>
-      				<li>
-      					<img class="thumb" src="images/background/<%=sanPham.hinh%>" alt="" />
-      					<h3><%=sanPham.title%></h3>
-      					<p><%=sanPham.desc%></p>
-      				</li>
-      				<%
-      			});
-      		%>
-
-    </ul>
+      </tr>
+    </table>
   </body>
 </html>

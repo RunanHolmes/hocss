@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var app = express();
 var upload = require('./uploadfile.js')('avatar');
 app.set('view engine', 'ejs');
@@ -33,6 +34,15 @@ app.get('/danhsach', function(req, res){
   res.render('danhsach', {mang: mang});
 });
 
+app.get('/xoa/:i', function(req, res){
+  var index = req.params.i;
+  fs.unlink(`./public/images/background/${mang[index].hinh}`,
+    function(){
+      res.redirect('/danhsach');
+    });
+  mang.splice(index, 1);
+});
+
 app.listen(3000);
 
 function SanPham(hinh, videoID, title, desc){
@@ -43,7 +53,7 @@ function SanPham(hinh, videoID, title, desc){
 }
 
 var mang = [
-  new SanPham('16500156_th.jpg', '14506031', 'NodeJS', `NodeJS là một mã nguồn mở,
+  new SanPham('18081777_th.jpg', '14506031', 'NodeJS', `NodeJS là một mã nguồn mở,
   được dùng để xây dựng các ứng dụng mạng, đặc biệt các ứng đòi hỏi real time
   (thời gian thực) & khối lượng request lớn. Chúng ta có thể lập trình NodeJS
   với ngôn ngữ JavaScript. NodeJS có thể được dùng để xây dựng hoàn chỉnh một trang web,
